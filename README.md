@@ -2,25 +2,25 @@
 An extender for aiogram to make it more OOP
 
 
-# QUICK START
+## QUICK START
 
-## 1) Create project
+### 1) Create project
 `python -m aiogram_oop_framework startproject mybot`
 aiogram_oop_framework will create directory with your project
 create projects in root directory, otherwise you may get in some bugs (but if you are ready to fix it, than it is even better for this framework's future xD)
 
-## 2) Create your views in mybot.views directory
+### 2) Create your views in mybot.views directory
 You can create views anywhere inside mybot (but not outside), but preferably in mybot.views or it's subdirectories
 
-## 3) If you had created views not in mybot.views (if you created views in it's subdirectories, this is also for you):
+### 3) If you had created views not in mybot.views (if you created views in it's subdirectories, this is also for you):
 In settings.py change project structure by writing struc.include(<path to directory containing your views> with dots as separators) before `pr.structure = struc`
 
-## 4) Write your settings in settings.py, TELEGRAM_BOT_TOKEN is of course required
+### 4) Write your settings in settings.py, TELEGRAM_BOT_TOKEN is of course required
 
-## 5) You can now run start polling with `python -m mybot.manage start_polling` or you can see how it is done in code in examples/<example_name>/__init__.py
+### 5) You can now start polling with `python -m mybot.manage start-polling` or you can see how it is done in code in examples/<example_name>/__init__.py
 
 
-# VIEWS
+## VIEWS
 
 All your views must be inherited from BaseView, preferably using a more high-level class as MessageView, which are already inherited from BaseView
 All settings which are present in aiogram in @dp.message_handler() as args now should be the Views' fields, ex.:
