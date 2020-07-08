@@ -17,8 +17,7 @@ In settings.py change project structure by writing struc.include(<path to direct
 
 ### 4) Write your settings in settings.py, TELEGRAM_BOT_TOKEN is of course required
 
-### 5) You can now start polling with `python -m mybot.manage start-polling` or you can see how it is done in code in examples/<example_name>/__init__.py
-
+### 5) You can now start polling with `python -m mybot.manage start-polling` or you can see how it is done in code in examples/<example_name>/\_\_init\_\_.py
 
 ## VIEWS
 
