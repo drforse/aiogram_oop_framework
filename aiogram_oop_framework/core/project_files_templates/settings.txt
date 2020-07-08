@@ -9,7 +9,6 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 pr: Project = Project($project_name, Path.cwd())
 struc: ProjectStructure = ProjectStructure(pr)
 struc.include('views')
-struc.include('views.commands.dev_commands')
 pr.structure = struc
 
 PROJECT: Project = pr
