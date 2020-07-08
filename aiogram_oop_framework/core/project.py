@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from aiogram_oop_framework.core.funcs import get_init_py
+
 
 class ProjectStructure:
     def __init__(self, project: 'Project'):
@@ -46,6 +48,8 @@ class ProjectStructure:
                 path: Path = tree[directory]['directory']
                 if not path.exists():
                     path.mkdir()
+                    with open(path / '__init__.py', 'w') as f:
+                        f.write('\n')
                 foo(tree[directory]['tree'])
         foo(self.directories['root']['tree'])
 
@@ -62,6 +66,7 @@ class Project:
             self.path = Path.cwd()
         path = self.path / self.name
         Path.mkdir(path)
+        get_init_py(path, self.name)
         if default and not self.structure:
             self.structure = ProjectStructure(self)
             self.structure.include('views')

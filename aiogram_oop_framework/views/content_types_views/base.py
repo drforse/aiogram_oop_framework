@@ -42,6 +42,6 @@ class BaseContentTypesView(BaseView):
 
         kwargs = cls.register_kwargs if cls.register_kwargs else {}
         custom_filters = cls.custom_filters if cls.custom_filters else []
-        register_handler(callback=callback, *custom_filters, regexp=cls.regexp,
+        register_handler(callback, *custom_filters, regexp=cls.regexp,
                          content_types=cls.content_types, state=cls.state, run_task=cls.run_task, **kwargs)
 

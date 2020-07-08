@@ -25,7 +25,10 @@ def import_all_modules_in_project(project: Project):
                 # print(startswith + directory + '.' + name, 'imported')
             foo(tree[directory]['tree'], startswith=startswith + directory + '.')
 
-    foo(project.structure.directories['root']['tree'], startswith=f'{project.name}.')
+    try:
+        foo(project.structure.directories['root']['tree'], startswith=f'{project.name}.')
+    except FileNotFoundError as e:
+        raise FileNotFoundError('Check your settings.py project structure settings')
 
 
 def class_is_original(class_: type, library_name: str) -> bool:

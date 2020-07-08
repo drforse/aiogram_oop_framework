@@ -1,12 +1,15 @@
 from pathlib import Path
 
-path = __file__.replace('__init__.py', '')
-path = Path(path)
-print(path)
-with open(path / 'manage.txt') as f:
-    MANAGE_PY_TEMPLATE = f.read()
-with open(path / 'settings.txt') as f:
-    SETTINGS_PY_TEMPLATE = f.read()
+parent = Path(__file__).parent
+INIT_PATH = parent / '__init__.txt'
+MANAGE_PATH = parent / 'manage.txt'
+SETTINGS_PATH = parent / 'settings.txt'
 
 
-__all__ = ['MANAGE_PY_TEMPLATE', 'SETTINGS_PY_TEMPLATE']
+__all__ = ['INIT_PATH', 'MANAGE_PATH', 'SETTINGS_PATH']
+
+
+# with open('__init__.txt', 'r') as f:
+#     INIT_PY = f.read()
+# with open('manage.txt', 'r') as f:
+#     MANAGE_PY = f.
