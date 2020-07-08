@@ -12,5 +12,7 @@ class PollView(BaseView):
     @classmethod
     def register(cls):
         callback = cls.execute
-        cls.dp.register_poll_handler(callback, *cls.custom_filters,
-                                     run_task=cls.run_task, **cls.register_kwargs)
+        kwargs = cls.register_kwargs if cls.register_kwargs else {}
+        custom_filters = cls.custom_filters if cls.custom_filters else []
+        cls.dp.register_poll_handler(callback, *custom_filters,
+                                     run_task=cls.run_task, **kwargs)

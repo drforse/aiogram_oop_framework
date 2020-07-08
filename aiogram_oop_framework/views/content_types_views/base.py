@@ -39,6 +39,9 @@ class BaseContentTypesView(BaseView):
             register_handler = cls.dp.register_edited_channel_post_handler
         else:
             raise WrongUpdateType(f"update_type is {cls.__update_type}, but must be one of {ALLOWED_UPDATE_TYPES}")
-        register_handler(callback=callback, *cls.custom_filters, regexp=cls.regexp,
-                         content_types=cls.content_types, state=cls.state, run_task=cls.run_task, **cls.register_kwargs)
+
+        kwargs = cls.register_kwargs if cls.register_kwargs else {}
+        custom_filters = cls.custom_filters if cls.custom_filters else []
+        register_handler(callback=callback, *custom_filters, regexp=cls.regexp,
+                         content_types=cls.content_types, state=cls.state, run_task=cls.run_task, **kwargs)
 
