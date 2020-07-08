@@ -24,6 +24,22 @@ class ProjectStructure:
         path = current_step['directory'] / name
         current_step['tree'][name] = {'directory': path, 'tree': {}}
 
+    def include(self, path: str):
+        """
+        it will create the folders in the path which aren't created yet
+        :param path: any_dir.another_dir (found in project root)
+        :return:
+        """
+        path_steps = path.split('.')
+        current_step = self.directories['root']
+        for step in path_steps:
+            current_step_struc = current_step['tree'].get(step)
+            if current_step_struc:
+                current_step = current_step_struc
+            else:
+                current_step['tree'][step] = {'directory': current_step['directory'] / step, 'tree': {}}
+                current_step = current_step['tree'][step]
+
     def apply_changes(self):
         def foo(tree: dict):
             for directory in tree:
@@ -39,17 +55,16 @@ class Project:
     def __init__(self, name: str, path: Path = None):
         self.name: str = name
         self.path: Path = path
-        self.structure = None
+        self.structure: ProjectStructure = None
 
     def create(self, default=True):
         if not self.path:
             self.path = Path.cwd()
         path = self.path / self.name
         Path.mkdir(path)
-        if default:
+        if default and not self.structure:
             self.structure = ProjectStructure(self)
-            self.structure.add_dir_to_root('views')
-            self.structure.add_dir('views', 'commands')
-            self.structure.add_dir('views.commands', 'dev_commands')
-            self.structure.add_dir('views.commands', 'user_commands')
+            self.structure.include('views')
+            self.structure.apply_changes()
+        if self.structure:
             self.structure.apply_changes()

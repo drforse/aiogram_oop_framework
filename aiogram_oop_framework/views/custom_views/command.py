@@ -34,10 +34,11 @@ class CommandView(MessageView):
         """
         callback = cls.execute
         default_command = cls.__name__.lower()
+        commands = cls.commands
         if not cls.commands:
             commands = [default_command]
         elif cls.append_commands:
-            cls.commands.append(default_command)
+            commands.append(default_command)
 
         if cls.__update_type == 'message':
             register_handler = cls.dp.register_message_handler
