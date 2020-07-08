@@ -6,8 +6,9 @@ from aiogram import types
 from aiogram_oop_framework.core.project import Project, ProjectStructure
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-path = Path.cwd()
-pr: Project = Project(path.name, path.parent)
+PATH = Path.cwd()
+PROJECT_NAME = "testbot"
+pr: Project = Project(PROJECT_NAME, PATH)
 struc: ProjectStructure = ProjectStructure(pr)
 struc.include('views')
 pr.structure = struc
