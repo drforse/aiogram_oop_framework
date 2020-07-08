@@ -7,7 +7,7 @@ from aiogram_oop_framework.core.project import Project, ProjectStructure
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 PATH = Path.cwd()
-PROJECT_NAME = "testbot"
+PROJECT_NAME = "echo_bot"
 pr: Project = Project(PROJECT_NAME, PATH)
 struc: ProjectStructure = ProjectStructure(pr)
 struc.include('views')
