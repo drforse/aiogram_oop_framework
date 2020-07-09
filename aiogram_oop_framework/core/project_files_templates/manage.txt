@@ -30,12 +30,16 @@ def initialize_project():
     for middleware in MIDDLEWARES:
         BaseView.dp.middleware.setup(middleware())
 
+    if AUTO_REGISTER_VIEWS is False:
+        return
+
     utils.import_all_modules_in_project(project=PROJECT)
     views = utils.get_non_original_subclasses(BaseView, 'aiogram_oop_framework')
 
     ordered_views = utils.order_views(views)
     for view in ordered_views:
-        view.register()
+        if view.auto_register is True:
+            view.register()
 
 
 @main.command()

@@ -18,8 +18,9 @@ pip uninstall aiogram_oop_framework
 ```
 python -m aiogram_oop_framework startproject mybot
 ```
-aiogram_oop_framework will create directory with your project
-create projects in root directory, otherwise you may get in some bugs (but if you are ready to fix it, than it is even better for this framework's future xD)
+aiogram_oop_framework will create directory with your project.
+
+Create projects in root directory, otherwise you may get in some bugs (but if you are ready to fix it, than it is even better for this framework's future xD)
 
 ### 2) Create your views in mybot.views directory
 You can create views anywhere inside mybot (but not outside), but preferably in mybot.views or it's subdirectories
@@ -48,6 +49,8 @@ class MyView(MessageView):
         await m.answer('Hello there')
 ```
 
-Every view has "index" field, which present the order in which the views will be registered, it is not a required field however
-The code which will be run after handling update must be written in classmethod "execute"
-
+Every view has "index" field, which presents the order in which the views will be registered, it is not a required field however.
+The code, which will be run after handling update, must be written in classmethod "execute".
+If you don't want the framework to automatically register your views, set AUTO_REGISTER_VIEWS in settings.py to False.
+If you don't want some of views to be automatically register, set View.auto_register to False.
+To register your view manually, call register method of your View.
