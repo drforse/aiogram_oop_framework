@@ -2,14 +2,22 @@
 An extender for aiogram to make it more OOP
 
 ## INSTALLATION
-install with: `pip install -e git://github.com/drforse/aiogram_oop_framework#egg=aiogram_oop_framework`
-uninstall with: `pip uninstall aiogram_oop_framework`
+install with: 
+```
+pip install -e git://github.com/drforse/aiogram_oop_framework#egg=aiogram_oop_framework
+```
+uninstall with: 
+```
+pip uninstall aiogram_oop_framework
+```
 
 
 ## QUICK START
 
 ### 1) Create project
-`python -m aiogram_oop_framework startproject mybot`
+```
+python -m aiogram_oop_framework startproject mybot
+```
 aiogram_oop_framework will create directory with your project
 create projects in root directory, otherwise you may get in some bugs (but if you are ready to fix it, than it is even better for this framework's future xD)
 
