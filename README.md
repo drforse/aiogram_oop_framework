@@ -1,6 +1,10 @@
 # aiogram_oop_framework
 An extender for aiogram to make it more OOP
 
+## INSTALLATION
+install with: `pip install -e git://github.com/drforse/aiogram_oop_framework#egg=aiogram_oop_framework`
+uninstall with: `pip uninstall aiogram_oop_framework`
+
 
 ## QUICK START
 
