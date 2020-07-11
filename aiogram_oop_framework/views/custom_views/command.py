@@ -1,3 +1,4 @@
+from aiogram import Dispatcher
 from aiogram.types import ContentType
 
 from aiogram_oop_framework.views.message import MessageView
@@ -23,7 +24,7 @@ class CommandView(MessageView):
         self.__update_type = value
 
     @classmethod
-    def register(cls):
+    def register(cls, dp: Dispatcher):
         """
 
         :param append_commands: if commands is not None and append_commands is True, library appends default,
@@ -41,13 +42,13 @@ class CommandView(MessageView):
             commands.append(default_command)
 
         if cls.__update_type == 'message':
-            register_handler = cls.dp.register_message_handler
+            register_handler = dp.register_message_handler
         elif cls.__update_type == 'edited_message':
-            register_handler = cls.dp.register_edited_message_handler
+            register_handler = dp.register_edited_message_handler
         elif cls.__update_type == 'channel_post':
-            register_handler = cls.dp.register_channel_post_handler
+            register_handler = dp.register_channel_post_handler
         elif cls.__update_type == 'edited_channel_post':
-            register_handler = cls.dp.register_edited_channel_post_handler
+            register_handler = dp.register_edited_channel_post_handler
         else:
             raise WrongUpdateType(f"update_type is {cls.__update_type}, but must be one of {ALLOWED_UPDATE_TYPES}")
 

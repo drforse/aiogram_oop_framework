@@ -1,5 +1,6 @@
 import click
 import logging
+import asyncio
 
 from aiogram import Dispatcher, Bot
 from aiogram import executor
@@ -21,37 +22,35 @@ def main():
     pass
 
 
-def initialize_project():
-    if not TELEGRAM_BOT_TOKEN:
+def initialize_project(dispatcher: Dispatcher = None, bot: Bot = None) -> typing.Tuple[Dispatcher, Bot]:
+    if not TELEGRAM_BOT_TOKEN and not bot:
         raise exceptions.BotTokenNotDefined
-    BaseView.bot = Bot(token=TELEGRAM_BOT_TOKEN, parse_mode=PARSE_MODE)
-    BaseView.dp = Dispatcher(bot=BaseView.bot, storage=MEMORY_STORAGE)
+    bot = bot or Bot(token=TELEGRAM_BOT_TOKEN, parse_mode=PARSE_MODE)
+    dp = dispatcher or Dispatcher(bot=bot, storage=MEMORY_STORAGE)
 
     for middleware in MIDDLEWARES:
-        BaseView.dp.middleware.setup(middleware())
+        dp.middleware.setup(middleware())
 
     utils.import_all_modules_in_project(project=PROJECT)
     views = utils.get_non_original_subclasses(BaseView, 'aiogram_oop_framework')
 
     ordered_views = utils.order_views(views)
     for view in ordered_views:
-        view.register()
+        view.bot = view.bot or bot
+        if AUTO_REGISTER_VIEWS is True and view.auto_register is True:
+            view.register(dp=dp)
+    return dp, bot
 
 
 @main.command()
 def start_polling():
-    initialize_project()
-    executor.start_polling(BaseView.dp)
+    dp, bot = initialize_project()
+    executor.start_polling(dp)
 
 
 @main.command()
 def start_webhook():
     raise NotImplementedError
-
-
-@main.command()
-def update_structure_from_settings():
-    PROJECT.structure.apply_changes()
 
 
 if __name__ == "__main__":

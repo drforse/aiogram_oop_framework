@@ -1,3 +1,4 @@
+from aiogram import Dispatcher
 from aiogram.types import ShippingQuery
 from aiogram.dispatcher import FSMContext
 
@@ -10,9 +11,9 @@ class ShippingQueryView(BaseView):
         pass
 
     @classmethod
-    def register(cls):
+    def register(cls, dp: Dispatcher):
         callback = cls.execute
         kwargs = cls.register_kwargs if cls.register_kwargs else {}
         custom_filters = cls.custom_filters if cls.custom_filters else []
-        cls.dp.register_shipping_query_handler(callback, *custom_filters, state=cls.state,
-                                               run_task=cls.run_task, **kwargs)
+        dp.register_shipping_query_handler(callback, *custom_filters, state=cls.state,
+                                           run_task=cls.run_task, **kwargs)

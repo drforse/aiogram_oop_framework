@@ -1,3 +1,4 @@
+from aiogram import Dispatcher
 from aiogram.types import Message
 from aiogram.dispatcher import FSMContext
 
@@ -27,16 +28,16 @@ class BaseContentTypesView(BaseView):
         pass
 
     @classmethod
-    def register(cls):
+    def register(cls, dp: Dispatcher):
         callback = cls.execute
         if cls.__update_type == 'message':
-            register_handler = cls.dp.register_message_handler
+            register_handler = dp.register_message_handler
         elif cls.__update_type == 'edited_message':
-            register_handler = cls.dp.register_edited_message_handler
+            register_handler = dp.register_edited_message_handler
         elif cls.__update_type == 'channel_post':
-            register_handler = cls.dp.register_channel_post_handler
+            register_handler = dp.register_channel_post_handler
         elif cls.__update_type == 'edited_channel_post':
-            register_handler = cls.dp.register_edited_channel_post_handler
+            register_handler = dp.register_edited_channel_post_handler
         else:
             raise WrongUpdateType(f"update_type is {cls.__update_type}, but must be one of {ALLOWED_UPDATE_TYPES}")
 

@@ -41,7 +41,7 @@ def class_is_original(class_: type, library_name: str) -> bool:
     return class_.__module__.split('.')[0] == library_name
 
 
-def get_non_original_subclasses(base_class: type, library_name: str) -> typing.List[type]:
+def get_non_original_subclasses(base_class: type, library_name: str) -> typing.List[BaseView.__class__]:
     """
     the classes packages must be imported
     :param base_class: the base class to look for subclasses of

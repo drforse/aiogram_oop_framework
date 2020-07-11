@@ -1,3 +1,4 @@
+from aiogram import Dispatcher
 from aiogram.types import PollAnswer
 from aiogram.dispatcher import FSMContext
 
@@ -10,9 +11,9 @@ class PollAnswerView(BaseView):
         pass
 
     @classmethod
-    def register(cls):
+    def register(cls, dp: Dispatcher):
         callback = cls.execute
         kwargs = cls.register_kwargs if cls.register_kwargs else {}
         custom_filters = cls.custom_filters if cls.custom_filters else []
-        cls.dp.register_poll_answer_handler(callback, *custom_filters,
-                                            run_task=cls.run_task, **kwargs)
+        dp.register_poll_answer_handler(callback, *custom_filters,
+                                        run_task=cls.run_task, **kwargs)

@@ -1,5 +1,8 @@
-from echo_bot.manage import start_polling
+from aiogram import executor
+
+from echo_bot.manage import initialize_project
 
 
 if __name__ == '__main__':
-    start_polling()
+    dp, bot = initialize_project()
+    executor.start_polling(dp)

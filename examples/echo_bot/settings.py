@@ -15,6 +15,8 @@ pr.structure = struc
 
 PROJECT: Project = pr
 
+AUTO_REGISTER_VIEWS = True
+
 
 TELEGRAM_BOT_TOKEN: str = ""
 
