@@ -25,14 +25,18 @@ def main():
 def initialize_project(dispatcher: Dispatcher = None, bot: Bot = None) -> typing.Tuple[Dispatcher, Bot]:
     if not TELEGRAM_BOT_TOKEN and not bot:
         raise exceptions.BotTokenNotDefined
-    bot = bot or Bot(token=TELEGRAM_BOT_TOKEN, parse_mode=PARSE_MODE)
-    dp = dispatcher or Dispatcher(bot=bot, storage=MEMORY_STORAGE)
-
-    for middleware in MIDDLEWARES:
-        dp.middleware.setup(middleware())
+    if not dispatcher:
+        bot = bot or Bot(token=TELEGRAM_BOT_TOKEN, parse_mode=PARSE_MODE)
+        dp = dispatcher or Dispatcher(bot=bot, storage=MEMORY_STORAGE)
+    else:
+        dp = dispatcher
+        bot = bot or dp.bot
 
     utils.import_all_modules_in_project(project=PROJECT)
     views = utils.get_non_original_subclasses(BaseView, 'aiogram_oop_framework')
+
+    for middleware in MIDDLEWARES:
+        dp.middleware.setup(middleware())
 
     ordered_views = utils.order_views(views)
     for view in ordered_views:
