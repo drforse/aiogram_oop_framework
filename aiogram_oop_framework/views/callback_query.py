@@ -14,5 +14,5 @@ class CallbackQueryView(BaseView):
         callback = cls.execute
         kwargs = cls.register_kwargs if cls.register_kwargs else {}
         custom_filters = cls.custom_filters if cls.custom_filters else []
-        dp.register_callback_query_handler(callback, *custom_filters, state=cls.state,
+        dp.register_callback_query_handler(callback, *custom_filters, state=cls.state(),
                                            run_task=cls.run_task, **kwargs)

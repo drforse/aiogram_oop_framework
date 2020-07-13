@@ -1,5 +1,6 @@
-from aiogram import Dispatcher, Bot
-from aiogram.dispatcher import FSMContext
+import typing
+
+from aiogram import Bot
 
 
 class BaseView:
@@ -15,7 +16,7 @@ class BaseView:
     commands: list = None
     regexp: str = None
     content_types: list = None
-    state: FSMContext = None
+    state: typing.Callable = None
     run_task = None
     register_kwargs: dict = None
 

@@ -56,4 +56,4 @@ class CommandView(MessageView):
         custom_filters = cls.custom_filters if cls.custom_filters else []
 
         register_handler(callback, *custom_filters, commands=commands, regexp=cls.regexp,
-                         content_types=cls.content_types, state=cls.state, run_task=cls.run_task, **kwargs)
+                         content_types=cls.content_types, state=cls.state(), run_task=cls.run_task, **kwargs)
