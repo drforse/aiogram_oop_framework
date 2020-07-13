@@ -73,7 +73,7 @@ class MyView(MessageView):
         await m.answer('Hello there')
 ```
 
-state must be a callable (most obvious a lambda), which returns the State object, because of some aiogram's State' specific shit
+state must be a callable (most obvious a lambda), which returns the State object or '*', because of some aiogram's State' specific shit
 Every view has "index" field, which presents the order in which the views will be registered, it is not a required field however.
 The code, which will be ran after handling update, must be written in classmethod "execute".
 If you don't want the framework to automatically register your views, set AUTO_REGISTER_VIEWS in settings.py to False.
