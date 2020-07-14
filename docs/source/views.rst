@@ -75,7 +75,7 @@ Views by content_types
     :members:
 
 Other update types' views
-^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------
 .. automodule:: aiogram_oop_framework.views.inline_query
     :members:
 .. automodule:: aiogram_oop_framework.views.callback_query
@@ -88,6 +88,6 @@ Other update types' views
     :members:
 
 Custom views
-^^^^^^^^^^^^
+------------
 .. automodule:: aiogram_oop_framework.views.custom_views.command
     :members:
