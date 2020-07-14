@@ -16,7 +16,7 @@ class BaseView:
     commands: list = None
     regexp: str = None
     content_types: list = None
-    state: typing.Callable = None
+    state: typing.Callable = lambda: None
     run_task = None
     register_kwargs: dict = None
 
