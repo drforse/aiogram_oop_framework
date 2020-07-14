@@ -6,13 +6,14 @@
 Welcome to aiogram_oop_framework's documentation!
 =================================================
 
-.. automodule:: aiogram_oop_framework.views.message
-    :members:
-
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   installation
+   quick-start
+   views
+   settings
 
 
 Indices and tables

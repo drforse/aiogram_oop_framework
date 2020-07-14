@@ -4,4 +4,5 @@ from .base import BaseContentTypesView
 
 
 class VideoView(BaseContentTypesView):
+    """Same as :class:`aiogram_oop_framework.views.content_types_views.animation.AnimationView`, but content_types defaults to [ContentType.VIDEO]"""
     content_types = [ContentType.VIDEO]

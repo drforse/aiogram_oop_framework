@@ -6,10 +6,6 @@ from .message import MessageView
 class EditedMessageView(MessageView):
     @classmethod
     def register(cls, dp: Dispatcher):
-        """
-
-        Make sure you don't want to use a more high-level like Command or Photo view instead
-        """
         callback = cls.execute
         kwargs = cls.register_kwargs if cls.register_kwargs else {}
         custom_filters = cls.custom_filters if cls.custom_filters else []

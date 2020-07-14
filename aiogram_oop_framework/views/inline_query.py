@@ -6,6 +6,21 @@ from .base import BaseView
 
 
 class InlineQueryView(BaseView):
+    """View for updates of type "message"
+
+    Attributes:
+        custom_filters (list): Custom filters (for ex.: [lambda m: m.reply_to_message]).
+
+        state (Callable): Function, which returns a State object of aiogram or "*"
+
+        run_task (bool): Run callback in task (no wait results)
+
+        register_kwargs (dict): Kwargs, which you would add in @dp.message_handler in fresh aiogram
+
+
+    You may found more info about attributes in aiogram's docs on Dispatcher.message_handler or you may not, depends on aiogram's docs.
+
+    """
     @classmethod
     async def execute(cls, q: InlineQuery, state: FSMContext = None, **kwargs):
         pass
