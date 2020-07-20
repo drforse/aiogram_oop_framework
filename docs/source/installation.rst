@@ -6,7 +6,7 @@ install with:
 
 .. code-block:: bash
 
-    pip install -e git://github.com/drforse/aiogram_oop_framework#egg=aiogram_oop_framework
+    pip install aiogram_oop_framework
 
 
 uninstall with:

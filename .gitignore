@@ -130,3 +130,6 @@ dmypy.json
 
 /testbot
 /.idea
+
+/.aiogram_tests
+/.tests

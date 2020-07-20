@@ -14,7 +14,8 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/drforse/aiogram_oop_framework",
     packages=setuptools.find_packages(),
-    install_requires=['aiogram', 'click'],
+    include_package_data=True,
+    install_requires=['aiogram==2.9.2', 'click==7.1.2'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
