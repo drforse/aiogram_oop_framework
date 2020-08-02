@@ -60,11 +60,21 @@ def get_non_original_subclasses(base_class: type, library_name: str) -> typing.L
     return result
 
 
-def order_views(views: typing.List[BaseView.__class__]) -> typing.List[BaseView.__class__]:
-    ordered_views = []
+def order_views(views: typing.List[BaseView.__class__]) -> typing.ValuesView[BaseView.__class__]:
+    unordered = []
+    ordered_views = {}
     for view in views:
         if view.index is not None:
-            ordered_views.insert(view.index, view)
+            ordered_views[view.index] = view
         else:
-            ordered_views.append(view)
-    return ordered_views
+            unordered.append(view)
+
+    for i in range(len(views)):
+        if not unordered:
+            break
+        if ordered_views.get(i) is not None:
+            continue
+        ordered_views[i] = unordered.pop(0)
+    ordered_views = dict(sorted(ordered_views.items(), key=lambda x: x[0]))
+
+    return ordered_views.values()

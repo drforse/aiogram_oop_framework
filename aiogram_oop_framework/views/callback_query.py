@@ -1,4 +1,4 @@
-from aiogram.types import InlineQuery
+from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext, Dispatcher
 
 from .base import BaseView
@@ -6,7 +6,7 @@ from .base import BaseView
 
 class CallbackQueryView(BaseView):
     @classmethod
-    async def execute(cls, q: InlineQuery, state: FSMContext = None, **kwargs):
+    async def execute(cls, q: CallbackQuery, state: FSMContext = None, **kwargs):
         pass
 
     @classmethod

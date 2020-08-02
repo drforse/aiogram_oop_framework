@@ -1,6 +1,6 @@
 from aiogram import executor
 
-from echo_bot.manage import initialize_project
+from examples.echo_bot.manage import initialize_project
 
 
 if __name__ == '__main__':
