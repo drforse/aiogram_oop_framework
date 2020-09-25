@@ -6,7 +6,7 @@ from .message import MessageView
 class EditedMessageView(MessageView):
     @classmethod
     def register(cls, dp: Dispatcher):
-        callback = cls.execute
+        callback = cls._execute
         kwargs = cls.register_kwargs if cls.register_kwargs else {}
         custom_filters = cls.custom_filters if cls.custom_filters else []
         dp.register_edited_message_handler(callback, *custom_filters, commands=cls.commands,

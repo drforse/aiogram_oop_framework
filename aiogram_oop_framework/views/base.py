@@ -1,6 +1,8 @@
 import typing
 
 from aiogram import Bot
+from aiogram.types.base import TelegramObject
+from aiogram.dispatcher import FSMContext
 
 
 class BaseView:
@@ -35,3 +37,19 @@ class BaseView:
         if not cls.register_kwargs:
             cls.register_kwargs = dict()
         cls.register_kwargs.update(kwargs)
+
+    @classmethod
+    async def execute(cls, tg_obj: TelegramObject, state: FSMContext = None, **kwargs):
+        raise NotImplementedError
+
+    @classmethod
+    async def _execute(cls, tg_obj: TelegramObject, state: FSMContext = None, **kwargs):
+        """
+        this is a private method used by the framework for making filters like execute_in_private work
+
+        :param tg_obj: Message, CallbackQuery, InlineQuery etc
+        :param state: FSMContext
+        :param kwargs: kwargs
+        :return:
+        """
+        raise NotImplementedError

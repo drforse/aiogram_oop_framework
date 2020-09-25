@@ -14,12 +14,12 @@ class BaseContentTypesView(BaseView):
     update_type = 'message'
 
     @classmethod
-    async def execute(cls, m: Message, state: FSMContext = None, **kwargs):
+    async def _execute(cls, m: Message, state: FSMContext = None, **kwargs):
         pass
 
     @classmethod
     def register(cls, dp: Dispatcher):
-        callback = cls.execute
+        callback = cls._execute
         if cls.update_type == 'message':
             register_handler = dp.register_message_handler
         elif cls.update_type == 'edited_message':

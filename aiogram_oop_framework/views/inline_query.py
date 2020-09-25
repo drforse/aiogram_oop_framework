@@ -23,11 +23,15 @@ class InlineQueryView(BaseView):
     """
     @classmethod
     async def execute(cls, q: InlineQuery, state: FSMContext = None, **kwargs):
-        pass
+        raise NotImplementedError
+
+    @classmethod
+    async def _execute(cls, q: InlineQuery, state: FSMContext = None, **kwargs):
+        await cls.execute(q, state, **kwargs)
 
     @classmethod
     def register(cls, dp: Dispatcher):
-        callback = cls.execute
+        callback = cls._execute
         kwargs = cls.register_kwargs if cls.register_kwargs else {}
         custom_filters = cls.custom_filters if cls.custom_filters else []
         dp.register_inline_handler(callback, *custom_filters, state=cls.state(),

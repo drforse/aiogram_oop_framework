@@ -33,9 +33,18 @@ class MessageView(BaseView):
     You may found more info about custom_filters, commands, regexp, content_types, state and run_task attributes attributes in aiogram's docs on Dispatcher.message_handler or you may not, depends on aiogram's docs.
 
     """
+
     @classmethod
     async def execute(cls, m: types.Message, state: FSMContext = None, **kwargs):
-        pass
+        raise NotImplementedError
+
+    @classmethod
+    async def _execute(cls, m: types.Message, state: FSMContext = None, **kwargs):
+        chat_type = m.chat.type
+        if hasattr(cls, f'execute_in_{chat_type}'):
+            await cls.__dict__[f'execute_in_{chat_type}'].__func__(cls, m, state, **kwargs)
+            return
+        await cls.execute(m, state, **kwargs)
 
     @classmethod
     def register(cls, dp: Dispatcher):
@@ -45,7 +54,7 @@ class MessageView(BaseView):
             dp (Dispatcher): in which dispatcher to register the handler
 
         """
-        callback = cls.execute
+        callback = cls._execute
         kwargs = cls.register_kwargs if cls.register_kwargs else {}
         custom_filters = cls.custom_filters if cls.custom_filters else []
         dp.register_message_handler(callback, *custom_filters, commands=cls.commands,

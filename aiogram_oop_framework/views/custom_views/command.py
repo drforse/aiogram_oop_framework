@@ -31,7 +31,7 @@ class CommandView(MessageView):
     def register(cls, dp: Dispatcher):
         """
         """
-        callback = cls.execute
+        callback = cls._execute
         default_command = cls.__name__.lower()
         commands = cls.commands
         if not cls.commands:
