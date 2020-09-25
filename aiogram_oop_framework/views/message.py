@@ -1,8 +1,11 @@
+import logging
+
 from aiogram import Dispatcher
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from .base import BaseView
+from ..filters import Filters, elem_matches_filter, filter_execute
 
 
 class MessageView(BaseView):
@@ -40,16 +43,41 @@ class MessageView(BaseView):
 
     @classmethod
     async def _execute(cls, m: types.Message, state: FSMContext = None, **kwargs):
-        chat_type = m.chat.type
-        if not hasattr(cls, f'execute_in_{chat_type}'):
-            await cls.execute(m, state, **kwargs)
-            return
 
-        method = cls.__dict__[f'execute_in_{chat_type}']
-        if isinstance(method, classmethod):
-            await method.__func__(cls, m, state, **kwargs)
-        else:
-            await method.__func__(m, state, **kwargs)
+        # remove with execute_in_<chat_type> removing
+        chat_type = m.chat.type
+        if hasattr(cls, f'execute_in_{chat_type}'):
+            logging.warning("execute_in_<chat_type> is deprecated in version 0.2.0, "
+                            "use decorator filters.filter_execute() instead: "
+                            "`filters.filter_execute(chat_type=<chat_type>)`")
+            in_chat_method = cls.__dict__[f'execute_in_{chat_type}']
+            func = in_chat_method.__func__
+            if hasattr(func, "__execute_filters__"):
+                fltrs = func.__execute_filters__
+            else:
+                fltrs = Filters()
+            fltrs.chat_type = chat_type
+            func.__execute_filters__ = fltrs
+        # remove with execute_in_<chat_type> removing
+
+        for _, method in cls.__dict__.items():
+            if not isinstance(method, (classmethod, staticmethod)):
+                continue
+            func = method.__func__
+            if not hasattr(func, "__execute_filters__"):
+                continue
+
+            filters: Filters = func.__execute_filters__
+            if not filters:
+                continue
+            if await filters.message_matches(m):
+                if isinstance(method, classmethod):
+                    await func(cls, m)
+                else:
+                    await func(m)
+                return
+
+        await cls.execute(m, state, **kwargs)
 
     @classmethod
     def register(cls, dp: Dispatcher):
