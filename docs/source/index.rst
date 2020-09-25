@@ -14,6 +14,7 @@ Welcome to aiogram_oop_framework's documentation!
    quick-start
    views
    settings
+   additional-filters
 
 
 Indices and tables
