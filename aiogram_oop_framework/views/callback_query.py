@@ -12,10 +12,15 @@ class CallbackQueryView(BaseView):
     @classmethod
     async def _execute(cls, q: CallbackQuery, state: FSMContext = None, **kwargs):
         chat_type = q.message.chat.type
-        if hasattr(cls, f'execute_in_{chat_type}'):
-            await cls.__dict__[f'execute_in_{chat_type}'].__func__(cls, q, state, **kwargs)
+        if not hasattr(cls, f'execute_in_{chat_type}'):
+            await cls.execute(q, state, **kwargs)
             return
-        await cls.execute(q, state, **kwargs)
+
+        method = cls.__dict__[f'execute_in_{chat_type}']
+        if isinstance(method, classmethod):
+            await method.__func__(cls, q, state, **kwargs)
+        else:
+            await method.__func__(q, state, **kwargs)
 
     @classmethod
     def register(cls, dp: Dispatcher):

@@ -41,10 +41,15 @@ class MessageView(BaseView):
     @classmethod
     async def _execute(cls, m: types.Message, state: FSMContext = None, **kwargs):
         chat_type = m.chat.type
-        if hasattr(cls, f'execute_in_{chat_type}'):
-            await cls.__dict__[f'execute_in_{chat_type}'].__func__(cls, m, state, **kwargs)
+        if not hasattr(cls, f'execute_in_{chat_type}'):
+            await cls.execute(m, state, **kwargs)
             return
-        await cls.execute(m, state, **kwargs)
+
+        method = cls.__dict__[f'execute_in_{chat_type}']
+        if isinstance(method, classmethod):
+            await method.__func__(cls, m, state, **kwargs)
+        else:
+            await method.__func__(m, state, **kwargs)
 
     @classmethod
     def register(cls, dp: Dispatcher):
