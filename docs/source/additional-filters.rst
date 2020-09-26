@@ -80,7 +80,6 @@ func
 
 While func may only be a function or lambda, other filter types accept much more values:
 
-- ff
 - str
 - aiogram.util.helper.Item (for ex.: ChatType.PRIVATE)
 - list of the above
