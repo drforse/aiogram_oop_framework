@@ -68,8 +68,8 @@ chat_member_status
     status of from_user member (it calls bot.get_chat_member to find out the status!)
 chat_type
     type of chat where update occurred
-contains_entities
-    if message.entities/message.caption_entities/poll.explanation_entities contains specified entities
+contains_entities_types
+    if message.entities/message.caption_entities/poll.explanation_entities contains entities with specified types
 poll_type
     type of the Poll
 dice_emoji
