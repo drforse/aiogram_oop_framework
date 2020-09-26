@@ -56,8 +56,9 @@ class MessageView(BaseView):
                 fltrs = func.__execute_filters__
             else:
                 fltrs = Filters()
-            fltrs.chat_type = chat_type
-            func.__execute_filters__ = fltrs
+            if fltrs.chat_type is None:
+                fltrs.chat_type = chat_type
+                func.__execute_filters__ = fltrs
         # remove with execute_in_<chat_type> removing
 
         for _, method in cls.__dict__.items():
