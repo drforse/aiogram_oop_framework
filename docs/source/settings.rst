@@ -14,6 +14,7 @@ TELEGRAM_BOT_TOKEN: token of your bot
 
 MIDDLEWARES: list of your middlewares (from aiogram), must be classes, not instances
 
-MEMORY_STORAGE: memory storage of dispatcher, you may look closer about that in aiogram's docs, or you may not, depends in aiogram's docs
+| BOT_STORAGE: storage of the bot, you may look closer about that in aiogram's docs, or you may not, depends in aiogram's docs
+| MEMORY_STORAGE: DEPRECATED IN 0.2.dev3, will be removed, old name of BOT_STORAGE
 
 PARSE_MODE: default parse mode for your bot
