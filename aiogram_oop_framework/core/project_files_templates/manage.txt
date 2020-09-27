@@ -27,7 +27,7 @@ def initialize_project(dispatcher: Dispatcher = None, bot: Bot = None) -> typing
         raise exceptions.BotTokenNotDefined
     if not dispatcher:
         bot = bot or Bot(token=TELEGRAM_BOT_TOKEN, parse_mode=PARSE_MODE)
-        dp = dispatcher or Dispatcher(bot=bot, storage=MEMORY_STORAGE)
+        dp = dispatcher or Dispatcher(bot=bot, storage=BOT_STORAGE)
     else:
         dp = dispatcher
         bot = bot or dp.bot
