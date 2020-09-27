@@ -15,10 +15,25 @@ Create projects in root directory, otherwise you may get in some bugs (but if yo
 
 2) Create your views in mybot.views directory
 You can create views anywhere inside mybot (but not outside), but preferably in mybot.views or it's subdirectories
+Your view must be inherited from any View class, for example: :class:`MessageView<aiogram_oop_framework.views.message.MessageView>`
+and have classmethod .execute() which is used to run code. And it also may have additional classmethods with any name,
+with filters (see :ref:`additional-filters<filter_execute decorator for methods>` for more info about filters)
+Code example:
+
+.. code-block:: python
+
+
+    class Example(MessageView):
+
+    @classmethod
+    async def execute(cls, m: types.Message, state: FSMContext = None, **kwargs):
+        await m.answer('Hello, World!')
+
 
 3) If you had created views not in mybot.views (if you created views in it's subdirectories, this is also for you):
-In settings.py change project structure by writing struc.include(<path to directory containing your views> with dots as separators) before :code:`pr.structure = struc`
-It should be more less like thath in settings.py
+In settings.py change project structure by writing
+:code:`struc.include(<path to directory containing your views> with dots as separators)` before :code:`pr.structure = struc`
+For example:
 
 .. code-block:: python
 
