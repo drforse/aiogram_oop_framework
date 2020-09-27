@@ -47,7 +47,7 @@ class MessageView(BaseView):
         # remove with execute_in_<chat_type> removing
         chat_type = m.chat.type
         if hasattr(cls, f'execute_in_{chat_type}'):
-            logging.warning("execute_in_<chat_type> is deprecated in version 0.2.0, "
+            logging.warning("execute_in_<chat_type> is deprecated in version 0.2.dev0, "
                             "use decorator filters.filter_execute() instead: "
                             "`filters.filter_execute(chat_type=<chat_type>)`")
             in_chat_method = cls.__dict__[f'execute_in_{chat_type}']
@@ -61,13 +61,8 @@ class MessageView(BaseView):
                 func.__execute_filters__ = fltrs
         # remove with execute_in_<chat_type> removing
 
-        for _, method in cls.__dict__.items():
-            if not isinstance(method, (classmethod, staticmethod)):
-                continue
+        for method in cls._methods_with_filters:
             func = method.__func__
-            if not hasattr(func, "__execute_filters__"):
-                continue
-
             filters: Filters = func.__execute_filters__
             if not filters:
                 continue
@@ -75,6 +70,8 @@ class MessageView(BaseView):
                 if isinstance(method, classmethod):
                     await func(cls, m)
                 else:
+                    logging.warning("using staticmethods is deprecated in version 0.2.dev2, "
+                                    "use only classmethods")
                     await func(m)
                 return
 

@@ -2,20 +2,20 @@ from aiogram import Dispatcher
 from aiogram.types import Message
 from aiogram.dispatcher import FSMContext
 
-from ..base import BaseView
+from ..message import MessageView
 from aiogram_oop_framework.exceptions import *
 
 
 ALLOWED_UPDATE_TYPES = ['message', 'edited_message', 'channel_post', 'edited_channel_post']
 
 
-class BaseContentTypesView(BaseView):
+class BaseContentTypesView(MessageView):
     content_types = None
     update_type = 'message'
 
     @classmethod
-    async def _execute(cls, m: Message, state: FSMContext = None, **kwargs):
-        pass
+    async def execute(cls, m: Message, state: FSMContext = None, **kwargs):
+        raise NotImplementedError
 
     @classmethod
     def register(cls, dp: Dispatcher):

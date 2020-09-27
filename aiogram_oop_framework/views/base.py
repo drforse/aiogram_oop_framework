@@ -4,8 +4,26 @@ from aiogram import Bot
 from aiogram.types.base import TelegramObject
 from aiogram.dispatcher import FSMContext
 
+from ..utils import class_is_original
 
-class BaseView:
+
+class MetaBaseView(type):
+    def __init__(cls, name, bases, dct):
+        super().__init__(name, bases, dct)
+        if class_is_original(cls, 'aiogram_oop_framework'):
+            return
+        methods_with_filters = []
+        for _, method in cls.__dict__.items():
+            if not isinstance(method, (classmethod, staticmethod)):
+                continue
+            func = method.__func__
+            if not hasattr(func, "__execute_filters__"):
+                continue
+            methods_with_filters.append(method)
+        cls._methods_with_filters = methods_with_filters
+
+
+class BaseView(metaclass=MetaBaseView):
     """
     Base class for all views
     all fields of BaseView including bot should remain unchanged

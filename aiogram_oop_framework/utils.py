@@ -4,7 +4,6 @@ import typing
 
 from pathlib import Path
 from aiogram_oop_framework.core.project import Project
-from aiogram_oop_framework.views.base import BaseView
 
 
 def import_all_modules_in_project(project: Project):
@@ -41,7 +40,7 @@ def class_is_original(class_: type, library_name: str) -> bool:
     return class_.__module__.split('.')[0] == library_name
 
 
-def get_non_original_subclasses(base_class: type, library_name: str) -> typing.List[BaseView.__class__]:
+def get_non_original_subclasses(base_class: type, library_name: str) -> typing.List['BaseView.__class__']:
     """
     the classes packages must be imported
     :param base_class: the base class to look for subclasses of
@@ -60,7 +59,7 @@ def get_non_original_subclasses(base_class: type, library_name: str) -> typing.L
     return result
 
 
-def order_views(views: typing.List[BaseView.__class__]) -> typing.ValuesView[BaseView.__class__]:
+def order_views(views: typing.List['BaseView.__class__']) -> typing.ValuesView['BaseView.__class__']:
     unordered = []
     ordered_views = {}
     for view in views:

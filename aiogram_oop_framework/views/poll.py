@@ -1,3 +1,5 @@
+import logging
+
 from aiogram import Dispatcher
 from aiogram.types import Poll
 from aiogram.dispatcher import FSMContext
@@ -28,6 +30,8 @@ class PollView(BaseView):
                 if isinstance(method, classmethod):
                     await func(cls, p)
                 else:
+                    logging.warning("using staticmethods is deprecated in version 0.2.dev2, "
+                                    "use only classmethods")
                     await func(p)
                 return
 
