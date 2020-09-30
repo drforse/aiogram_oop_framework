@@ -11,3 +11,8 @@ class BotTokenNotDefined(Exception):
 class FilterNameImpossible(Exception):
     def __init__(self, txt=None):
         self.txt = txt
+
+
+class WrappedFunctionWrongAnnotations(Exception):
+    def __init__(self, txt=None):
+        self.txt = txt

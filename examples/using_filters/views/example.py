@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types.chat import ChatType
 from aiogram_oop_framework.views import MessageView
-from aiogram_oop_framework.filters import filter_execute
+from aiogram_oop_framework.filters.filters import filter_execute
 
 
 class Example(MessageView):

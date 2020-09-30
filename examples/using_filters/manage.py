@@ -1,12 +1,12 @@
 import click
 import logging
-import asyncio
 
 from aiogram import Dispatcher, Bot
 from aiogram import executor
 from aiogram_oop_framework.views.base import BaseView
 from aiogram_oop_framework import utils
 from aiogram_oop_framework import exceptions
+from aiogram_oop_framework.filters.builtin import *
 
 from .settings import *
 
@@ -31,6 +31,14 @@ def initialize_project(dispatcher: Dispatcher = None, bot: Bot = None) -> typing
     else:
         dp = dispatcher
         bot = bot or dp.bot
+    Dispatcher.set_current(dp)
+
+    dp.filters_factory.bind(Entities, event_handlers=[dp.message_handlers, dp.poll_handlers])
+    dp.filters_factory.bind(ChatTypeFilter, event_handlers=[dp.message_handlers, dp.callback_query_handlers])
+    dp.filters_factory.bind(ChatMemberStatus, event_handlers=[dp.message_handlers, dp.callback_query_handlers])
+    dp.filters_factory.bind(PollTypeFilter, event_handlers=[dp.message_handlers, dp.callback_query_handlers, dp.poll_handlers])
+    dp.filters_factory.bind(DiceEmoji, event_handlers=[dp.message_handlers, dp.callback_query_handlers])
+    dp.filters_factory.bind(FuncFilter)
 
     utils.import_all_modules_in_project(project=PROJECT)
     views = utils.get_non_original_subclasses(BaseView, 'aiogram_oop_framework')

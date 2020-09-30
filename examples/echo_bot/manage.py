@@ -1,12 +1,12 @@
 import click
 import logging
-import asyncio
 
 from aiogram import Dispatcher, Bot
 from aiogram import executor
 from aiogram_oop_framework.views.base import BaseView
 from aiogram_oop_framework import utils
 from aiogram_oop_framework import exceptions
+from aiogram_oop_framework.filters.builtin import *
 
 from .settings import *
 
@@ -25,14 +25,26 @@ def main():
 def initialize_project(dispatcher: Dispatcher = None, bot: Bot = None) -> typing.Tuple[Dispatcher, Bot]:
     if not TELEGRAM_BOT_TOKEN and not bot:
         raise exceptions.BotTokenNotDefined
-    bot = bot or Bot(token=TELEGRAM_BOT_TOKEN, parse_mode=PARSE_MODE)
-    dp = dispatcher or Dispatcher(bot=bot, storage=MEMORY_STORAGE)
+    if not dispatcher:
+        bot = bot or Bot(token=TELEGRAM_BOT_TOKEN, parse_mode=PARSE_MODE)
+        dp = dispatcher or Dispatcher(bot=bot, storage=MEMORY_STORAGE)
+    else:
+        dp = dispatcher
+        bot = bot or dp.bot
+    Dispatcher.set_current(dp)
 
-    for middleware in MIDDLEWARES:
-        dp.middleware.setup(middleware())
+    dp.filters_factory.bind(Entities, event_handlers=[dp.message_handlers, dp.poll_handlers])
+    dp.filters_factory.bind(ChatTypeFilter, event_handlers=[dp.message_handlers, dp.callback_query_handlers])
+    dp.filters_factory.bind(ChatMemberStatus, event_handlers=[dp.message_handlers, dp.callback_query_handlers])
+    dp.filters_factory.bind(PollTypeFilter, event_handlers=[dp.message_handlers, dp.callback_query_handlers, dp.poll_handlers])
+    dp.filters_factory.bind(DiceEmoji, event_handlers=[dp.message_handlers, dp.callback_query_handlers])
+    dp.filters_factory.bind(FuncFilter)
 
     utils.import_all_modules_in_project(project=PROJECT)
     views = utils.get_non_original_subclasses(BaseView, 'aiogram_oop_framework')
+
+    for middleware in MIDDLEWARES:
+        dp.middleware.setup(middleware())
 
     ordered_views = utils.order_views(views)
     for view in ordered_views:

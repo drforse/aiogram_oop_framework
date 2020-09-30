@@ -5,7 +5,6 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from .base import BaseView
-from ..filters import Filters, elem_matches_filter, filter_execute
 
 
 class MessageView(BaseView):
@@ -55,27 +54,13 @@ class MessageView(BaseView):
             if hasattr(func, "__execute_filters__"):
                 fltrs = func.__execute_filters__
             else:
-                fltrs = Filters()
+                fltrs = []
             if fltrs.chat_type is None:
                 fltrs.chat_type = chat_type
                 func.__execute_filters__ = fltrs
         # remove with execute_in_<chat_type> removing
 
-        for method in cls._methods_with_filters:
-            func = method.__func__
-            filters: Filters = func.__execute_filters__
-            if not filters:
-                continue
-            if await filters.message_matches(m):
-                if isinstance(method, classmethod):
-                    await func(cls, m)
-                else:
-                    logging.warning("using staticmethods is deprecated in version 0.2.dev2, "
-                                    "use only classmethods")
-                    await func(m)
-                return
-
-        await cls.execute(m, state, **kwargs)
+        await super()._execute(m, state, **kwargs)
 
     @classmethod
     def register(cls, dp: Dispatcher):

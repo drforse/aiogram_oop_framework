@@ -7,7 +7,7 @@ from aiogram_oop_framework.core.project import Project, ProjectStructure
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 PATH = Path.cwd()
-PROJECT_NAME = "mybot"
+PROJECT_NAME = "using_filters"
 pr: Project = Project(PROJECT_NAME, PATH)
 struc: ProjectStructure = ProjectStructure(pr)
 struc.include('views')
@@ -22,6 +22,7 @@ TELEGRAM_BOT_TOKEN: str = ""
 
 MIDDLEWARES: typing.List[BaseMiddleware.__class__] = []
 
-MEMORY_STORAGE = MemoryStorage()
+BOT_STORAGE = MemoryStorage()
+MEMORY_STORAGE = BOT_STORAGE  # needed for backward compatibility, will be removed
 
 PARSE_MODE = types.ParseMode.HTML

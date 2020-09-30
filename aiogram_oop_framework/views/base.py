@@ -1,9 +1,11 @@
 import typing
+import logging
 
 from aiogram import Bot
 from aiogram.types.base import TelegramObject
 from aiogram.dispatcher import FSMContext
 
+from ..filters.filters import tg_obj_matches_filters
 from ..utils import class_is_original
 
 
@@ -70,4 +72,18 @@ class BaseView(metaclass=MetaBaseView):
         :param kwargs: kwargs
         :return:
         """
-        raise NotImplementedError
+        for method in cls._methods_with_filters:
+            func = method.__func__
+            filters = func.__execute_filters__
+            if not filters:
+                continue
+            if await tg_obj_matches_filters(tg_obj, filters):
+                if isinstance(method, classmethod):
+                    await func(cls, tg_obj)
+                else:
+                    logging.warning("using staticmethods is deprecated in version 0.2.dev2, "
+                                    "use only classmethods")
+                    await func(tg_obj)
+                return
+
+        await cls.execute(tg_obj, state, **kwargs)

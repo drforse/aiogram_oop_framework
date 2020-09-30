@@ -1,11 +1,10 @@
 from aiogram import types
-from aiogram.types.chat import ChatType
 from aiogram.types.message_entity import MessageEntityType
 from aiogram.types.poll import PollType
 from aiogram.dispatcher import FSMContext
 
 from aiogram_oop_framework.views import PollView
-from aiogram_oop_framework.filters import filter_execute, DiceEmojiHelper
+from aiogram_oop_framework.filters.filters import filter_execute
 
 
 class TestPollView(PollView):
@@ -18,7 +17,7 @@ class TestPollView(PollView):
         assert MessageEntityType.MENTION not in entities_types
 
     @classmethod
-    @filter_execute(contains_entities_types=MessageEntityType.MENTION)
+    @filter_execute(entities=MessageEntityType.MENTION)
     async def execute_for_mentions(cls, p: types.Poll, state: FSMContext = None, **kwargs):
         assert p.explanation_entities is not None
         entities_types = [e.type for e in p.explanation_entities]

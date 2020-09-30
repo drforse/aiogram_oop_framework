@@ -5,7 +5,7 @@ from aiogram.types.poll import PollType
 from aiogram.dispatcher import FSMContext
 
 from aiogram_oop_framework.views import MessageView
-from aiogram_oop_framework.filters import filter_execute, DiceEmojiHelper
+from aiogram_oop_framework.filters.filters import filter_execute, DiceEmojiHelper
 
 
 class TestMessageView(MessageView):
@@ -30,7 +30,7 @@ class TestMessageView(MessageView):
         assert m.chat.type == ChatType.SUPER_GROUP
 
     @classmethod
-    @filter_execute(contains_entities_types=MessageEntityType.MENTION)
+    @filter_execute(entities=MessageEntityType.MENTION)
     async def execute_for_mentions(cls, m: types.Message, state: FSMContext = None, **kwargs):
         assert m.chat.type != ChatType.SUPER_GROUP
 
