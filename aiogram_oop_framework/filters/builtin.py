@@ -106,6 +106,8 @@ class DiceEmoji(BoundFilter):
 
 class FuncFilter(BoundFilter):
     """
+        DEPRECATED IN VERSION 0.2.dev4
+
     executes function with passing TelegramObject's subclass' instance
     as parameter and checks if the result is True or False
     needed for backward compatibility, you can simply write your func for *args (ex.: `filter_execute(func)`)
