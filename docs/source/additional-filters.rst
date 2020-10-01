@@ -46,8 +46,8 @@ poll_type
 dice_emoji
     dice's emoji
 func
-    |a callable, which returns boolean value
-    |DEPRECATED in 0.2.dev4, because of starting using aiogram filters, so you can simply put the func in args (ex.: filter_execute(foo))
+    | a callable, which returns boolean value
+    | DEPRECATED in 0.2.dev4, because of starting using aiogram filters, so you can simply put the func in args (ex.: filter_execute(foo))
 
 
 While func may only be a function or lambda, other filter types accept much more values:
