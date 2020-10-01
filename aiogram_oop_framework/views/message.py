@@ -41,28 +41,6 @@ class MessageView(BaseView):
         raise NotImplementedError
 
     @classmethod
-    async def _execute(cls, m: types.Message, state: FSMContext = None, **kwargs):
-
-        # remove with execute_in_<chat_type> removing
-        chat_type = m.chat.type
-        if hasattr(cls, f'execute_in_{chat_type}'):
-            logging.warning("execute_in_<chat_type> is deprecated in version 0.2.dev0, "
-                            "use decorator filters.filter_execute() instead: "
-                            "`filters.filter_execute(chat_type=<chat_type>)`")
-            in_chat_method = cls.__dict__[f'execute_in_{chat_type}']
-            func = in_chat_method.__func__
-            if hasattr(func, "__execute_filters__"):
-                fltrs = func.__execute_filters__
-            else:
-                fltrs = []
-            if fltrs.chat_type is None:
-                fltrs.chat_type = chat_type
-                func.__execute_filters__ = fltrs
-        # remove with execute_in_<chat_type> removing
-
-        await super()._execute(m, state, **kwargs)
-
-    @classmethod
     def register(cls, dp: Dispatcher):
         """method to register the handler, normally called automatically in manage.initialize_project()
 
