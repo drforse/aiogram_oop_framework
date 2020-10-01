@@ -1,3 +1,5 @@
+import asyncio
+
 import click
 import logging
 
@@ -22,12 +24,13 @@ def main():
     pass
 
 
-def initialize_project(dispatcher: Dispatcher = None, bot: Bot = None) -> typing.Tuple[Dispatcher, Bot]:
+def initialize_project(dispatcher: Dispatcher = None, bot: Bot = None, loop=None) -> typing.Tuple[Dispatcher, Bot]:
     if not TELEGRAM_BOT_TOKEN and not bot:
         raise exceptions.BotTokenNotDefined
     if not dispatcher:
+        loop = loop or asyncio.get_event_loop()
         bot = bot or Bot(token=TELEGRAM_BOT_TOKEN, parse_mode=PARSE_MODE)
-        dp = dispatcher or Dispatcher(bot=bot, storage=BOT_STORAGE)
+        dp = dispatcher or Dispatcher(bot=bot, storage=BOT_STORAGE, loop=loop)
     else:
         dp = dispatcher
         bot = bot or dp.bot
@@ -57,7 +60,10 @@ def initialize_project(dispatcher: Dispatcher = None, bot: Bot = None) -> typing
 @main.command()
 def start_polling():
     dp, bot = initialize_project()
-    executor.start_polling(dp)
+    if dp.loop:
+        executor.start_polling(dp)
+    else:
+        executor.start_polling(dp, loop=asyncio.get_event_loop())
 
 
 @main.command()
