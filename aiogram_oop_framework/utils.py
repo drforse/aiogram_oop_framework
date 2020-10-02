@@ -1,8 +1,11 @@
 import os
 import importlib
 import typing
-
+from dataclasses import dataclass
 from pathlib import Path
+
+from aiogram import Dispatcher
+
 from aiogram_oop_framework.core.project import Project
 
 
@@ -77,3 +80,56 @@ def order_views(views: typing.List['BaseView.__class__']) -> typing.ValuesView['
     ordered_views = dict(sorted(ordered_views.items(), key=lambda x: x[0]))
 
     return ordered_views.values()
+
+
+@dataclass
+class CommandFunc:
+    commands: typing.List[str]
+    handler: typing.Awaitable
+
+
+@dataclass
+class CommandHandlers:
+    views: typing.List['BaseView.__class__']
+    funcs: typing.List[CommandFunc]
+
+
+def get_command_handlers(dp: Dispatcher = None) -> CommandHandlers:
+    from aiogram.dispatcher.filters import Command
+    from aiogram_oop_framework.views.base import BaseView
+    dp = dp or Dispatcher.get_current()
+    result = CommandHandlers([], [])
+    for handler in (dp.message_handlers.handlers + dp.edited_message_handlers.handlers +
+                    dp.channel_post_handlers.handlers + dp.edited_channel_post_handlers.handlers):
+        for fltr in handler.filters:
+            if not isinstance(fltr.filter, Command):
+                continue
+            commands = fltr.filter.commands
+            if hasattr(handler.handler, "__self__") and issubclass(handler.handler.__self__, BaseView):
+                result.views.append(handler.handler.__self__)
+            else:
+                result.funcs.append(CommandFunc(commands, handler.handler))
+    return result
+
+
+def get_help(command: str) -> str:
+    """
+    looks for help in all registered handlers
+    returns handler.__self__.get_help() if handler is method else handler.__doc__
+    :param command: str - command, for ex.: command="start"
+    :return: str
+    """
+    command_handlers = get_command_handlers()
+    for handler in command_handlers.views:
+        if command in handler.commands:
+            try:
+                help_ = handler.get_help()
+            except AttributeError:
+                help_ = handler.__doc__
+            if help_:
+                return help_
+    for handler in command_handlers.funcs:
+        if command in handler.commands:
+            help_ = handler.handler.__doc__
+            if help_:
+                return help_

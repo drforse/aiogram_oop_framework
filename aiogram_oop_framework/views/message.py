@@ -27,7 +27,9 @@ class MessageView(BaseView):
 
         index (int): in which order to register the view, defaults to None
 
-        auto_register (bool): set to False if you don't want re register the view autcomatically, ignored, if AUTO_REGISTER_VIEWS in settings.py is set to False, defaults to True
+        auto_register (bool): set to False if you don't want register the view automatically, ignored, if AUTO_REGISTER_VIEWS in settings.py is set to False, defaults to True
+
+        help_text (str): help's text to return by :ref:`aiogram_oop_framework.utils.get_help`
 
 
     Make sure you don't want to use a more high-level view like :class:`aiogram_oop_framework.views.custom_views.command.CommandView` or :class:`aiogram_oop_framework.views.content_types_views.text.TextView` instead.

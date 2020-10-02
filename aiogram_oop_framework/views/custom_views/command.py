@@ -38,6 +38,7 @@ class CommandView(MessageView):
             commands = [default_command]
         elif cls.append_commands:
             commands.append(default_command)
+        cls.commands = commands
 
         if cls.update_type == 'message':
             register_handler = dp.register_message_handler

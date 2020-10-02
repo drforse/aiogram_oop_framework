@@ -45,6 +45,11 @@ class BaseView(metaclass=MetaBaseView):
     # aiogram_oop_framework settings
     index: int = None
     auto_register: bool = True
+    help_text: str = ""
+
+    @classmethod
+    def get_help(cls) -> str:
+        return cls.help_text or cls.__doc__
 
     @classmethod
     def add_custom_filters(cls, *custom_filters) -> None:

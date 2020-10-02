@@ -15,6 +15,7 @@ Welcome to aiogram_oop_framework's documentation!
    views
    settings
    additional-filters
+   utils
 
 
 Indices and tables
