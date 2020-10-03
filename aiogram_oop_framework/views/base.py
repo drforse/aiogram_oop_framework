@@ -46,6 +46,7 @@ class BaseView(metaclass=MetaBaseView):
     index: int = None
     auto_register: bool = True
     help_text: str = ""
+    command_description: str = ""
 
     @classmethod
     def get_help(cls) -> str:
