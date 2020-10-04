@@ -123,7 +123,7 @@ def get_help(command: str) -> str:
     for handler in command_handlers.views:
         if command in handler.commands:
             try:
-                help_ = handler.get_help()
+                help_ = handler.get_help() or handler.command_description
             except AttributeError:
                 help_ = handler.__doc__
             if help_:
@@ -133,3 +133,52 @@ def get_help(command: str) -> str:
             help_ = handler.handler.__doc__
             if help_:
                 return help_
+
+
+class Commands:
+    def __init__(self, dp: Dispatcher = None):
+        self._dp = dp or Dispatcher.get_current()
+        self._commands_dict = {}
+
+    def find_all_commands(self, only_views: bool = True):
+        commands_handlers = get_command_handlers(self._dp)
+        for handler in commands_handlers.views:
+            for command in handler.commands:
+                if self._commands_dict.get(command):
+                    continue
+                self._commands_dict[command] = handler.command_description or handler.get_help()
+        if only_views:
+            return self
+        for handler in commands_handlers.funcs:
+            for command in handler.commands:
+                if self._commands_dict.get(command):
+                    continue
+                self._commands_dict[command] = handler.handler.__doc__
+        return self
+
+    def __getattr__(self, item):
+        result = self._commands_dict.get(item)
+        if result:
+            return result
+        raise AttributeError(f"'Commands' object has no attribute '{item}'")
+
+    def __getitem__(self, item):
+        result = self._commands_dict.get(item)
+        if result:
+            return result
+        raise KeyError(item)
+
+    def __iter__(self):
+        yield from self._commands_dict
+
+    def __len__(self, other):
+        return len(self._commands_dict)
+
+    def __str__(self):
+        return str(self._commands_dict)
+
+    def format(self, prefix: str = "/", separator: str = ": ") -> str:
+        return "\n".join(
+            f"{prefix}{command}{separator}{description}"
+            for command, description in self._commands_dict.items()
+        )

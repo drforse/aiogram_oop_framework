@@ -45,3 +45,6 @@ Usage examples:
                 await m.answer("Sry, help for command isn't found")
 
 
+Commands
+--------
+Docs not ready yet...

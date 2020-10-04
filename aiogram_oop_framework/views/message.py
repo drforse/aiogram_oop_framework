@@ -29,9 +29,9 @@ class MessageView(BaseView):
 
         auto_register (bool): set to False if you don't want register the view automatically, ignored, if AUTO_REGISTER_VIEWS in settings.py is set to False, defaults to True
 
-        help_text (str): help's text to return by :ref:`aiogram_oop_framework.utils.get_help`
+        help_text (str): help's text to return by :ref:`aiogram_oop_framework.utils.get_help`, also user in utils.Commands to get description for command if command_description is empty or None
 
-        command_description (str): command's description for every command in commands attribute to call set_my_commands in initialize_projects, if no view has command_desciption, then it is not called
+        command_description (str): command's description for every command in commands attribute to call set_my_commands in initialize_projects, if no view has command_desciption, then it is not called, also user in utils.Commands to get description for command
 
 
     Make sure you don't want to use a more high-level view like :class:`aiogram_oop_framework.views.custom_views.command.CommandView` or :class:`aiogram_oop_framework.views.content_types_views.text.TextView` instead.
