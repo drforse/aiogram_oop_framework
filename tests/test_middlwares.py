@@ -1,13 +1,8 @@
 import pytest
-from aiogram import Dispatcher, Bot
 from aiogram.types import Message
 
 from aiogram_oop_framework.views import MessageView
 from .types_dataset import MESSAGE
-
-
-bot = Bot("34342323:sdfvcawfeedfr")
-dp = Dispatcher(bot)
 
 
 class ExecutionLogs:
