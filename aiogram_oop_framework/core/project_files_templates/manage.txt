@@ -6,6 +6,7 @@ import logging
 from aiogram import Dispatcher, Bot
 from aiogram import executor
 from aiogram_oop_framework.views.base import BaseView
+from aiogram_oop_framework.views import UserBaseView
 from aiogram_oop_framework import utils
 from aiogram_oop_framework import exceptions
 from aiogram_oop_framework.filters.builtin import *
@@ -49,11 +50,22 @@ def initialize_project(dispatcher: Dispatcher = None, bot: Bot = None, loop=None
     for middleware in MIDDLEWARES:
         dp.middleware.setup(middleware())
 
+    from aiogram.types import BotCommand
+    command_objects = {}
     ordered_views = utils.order_views(views)
     for view in ordered_views:
         view.bot = view.bot or bot
+        if UserBaseView in view.__bases__:
+            continue
         if AUTO_REGISTER_VIEWS is True and view.auto_register is True:
             view.register(dp=dp)
+        if view.command_description:
+            for command in view.commands:
+                command_objects[command] = command_objects.get(
+                    command, BotCommand(command, view.command_description))
+    if command_objects:
+        dp.loop.run_until_complete(
+            bot.set_my_commands(list(command_objects.values())))
     return dp, bot
 
 

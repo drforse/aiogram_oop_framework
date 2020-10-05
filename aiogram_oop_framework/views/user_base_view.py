@@ -1,0 +1,2 @@
+class UserBaseView:
+    pass

@@ -8,6 +8,7 @@ from .edited_message_view import EditedMessageView
 from .poll import PollView
 from .poll_answer import PollAnswerView
 from .shipping_query import ShippingQueryView
+from .user_base_view import UserBaseView
 
 from .content_types_views import *
 from .custom_views import *
