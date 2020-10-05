@@ -4,6 +4,7 @@ import logging
 from aiogram import Bot
 from aiogram.types.base import TelegramObject
 from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.handler import _check_spec, _get_spec
 
 from ..filters.filters import tg_obj_matches_filters
 from ..utils import class_is_original
@@ -92,4 +93,7 @@ class BaseView(metaclass=MetaBaseView):
                     await func(tg_obj)
                 return
 
-        await cls.execute(tg_obj, state, **kwargs)
+        data = {"state": state, "kwargs": kwargs}
+        spec = _get_spec(cls.execute)
+        partial_data = _check_spec(spec, data)
+        await cls.execute(tg_obj, **partial_data)
