@@ -59,10 +59,11 @@ def initialize_project(dispatcher: Dispatcher = None, bot: Bot = None, loop=None
             continue
         if AUTO_REGISTER_VIEWS is True and view.auto_register is True:
             view.register(dp=dp)
-        if view.command_description:
-            for command in view.commands:
+        if view.short_description and view.set_my_commands:
+            commands = utils.resolve_set_my_commands(view)
+            for command in commands:
                 command_objects[command] = command_objects.get(
-                    command, BotCommand(command, view.command_description))
+                    command, BotCommand(command, view.short_description))
     if command_objects:
         dp.loop.run_until_complete(
             bot.set_my_commands(list(command_objects.values())))

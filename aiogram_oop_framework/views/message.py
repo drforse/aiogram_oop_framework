@@ -31,7 +31,12 @@ class MessageView(BaseView):
 
         help_text (str): help's text to return by :ref:`aiogram_oop_framework.utils.get_help`, also user in utils.Commands to get description for command if command_description is empty or None
 
-        command_description (str): command's description for every command in commands attribute to call set_my_commands in initialize_projects, if no view has command_desciption, then it is not called, also user in utils.Commands to get description for command
+        short_description (str): command's description for every command in commands attribute to call set_my_commands in initialize_projects, if no view has command_desciption, then it is not called, also user in utils.Commands to get description for command
+
+        set_my_commands (set, list, tuple, str): "first" -> register in set_my_commands the first command from commands;
+                                                 "all" -> register in set_my_commands the first command from commands;
+                                                 list, set, tuple of strings -> register the specified commands;
+                                                 None -> don't register this view in set_my_commands
 
 
     Make sure you don't want to use a more high-level view like :class:`aiogram_oop_framework.views.custom_views.command.CommandView` or :class:`aiogram_oop_framework.views.content_types_views.text.TextView` instead.

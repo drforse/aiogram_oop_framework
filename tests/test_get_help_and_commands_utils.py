@@ -31,7 +31,7 @@ class Help(CommandView):
 class MView(MessageView):
     """cancel help"""
     commands = ['cancel']
-    command_description = "cancel description"
+    short_description = "cancel description"
 
     @classmethod
     async def execute(cls, m, state=None, **kwargs):

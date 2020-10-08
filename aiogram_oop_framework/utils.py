@@ -123,7 +123,7 @@ def get_help(command: str) -> str:
     for handler in command_handlers.views:
         if command in handler.commands:
             try:
-                help_ = handler.get_help() or handler.command_description
+                help_ = handler.get_help() or handler.short_description
             except AttributeError:
                 help_ = handler.__doc__
             if help_:
@@ -146,7 +146,7 @@ class Commands:
             for command in handler.commands:
                 if self._commands_dict.get(command):
                     continue
-                self._commands_dict[command] = handler.command_description or handler.get_help()
+                self._commands_dict[command] = handler.short_description or handler.get_help()
         if only_views:
             return self
         for handler in commands_handlers.funcs:
@@ -182,3 +182,15 @@ class Commands:
             f"{prefix}{command}{separator}{description}"
             for command, description in self._commands_dict.items()
         )
+
+
+def resolve_set_my_commands(v):
+    if not v.set_my_commands:
+        return []
+    if v.set_my_commands == 'first':
+        return [v.commands.copy()[0]]
+    if v.set_my_commands == 'all':
+        return v.commands.copy()
+    if isinstance(v.set_my_commands, (list, set, tuple)):
+        return v.set_my_commands
+    raise TypeError("set_my_commands should be None, 'first', 'all', or list, set, tuple of strings")

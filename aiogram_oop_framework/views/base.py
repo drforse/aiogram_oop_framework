@@ -40,6 +40,8 @@ class MetaBaseView(type):
         cls._pre_middlwares = pre_middlwares
         cls._post_middlwares = post_middlwares
 
+        cls.command_description = cls.short_description  # backward compatibility
+
 
 class BaseView(metaclass=MetaBaseView):
     """
@@ -62,7 +64,8 @@ class BaseView(metaclass=MetaBaseView):
     index: int = None
     auto_register: bool = True
     help_text: str = ""
-    command_description: str = ""
+    short_description: str = ""
+    set_my_commands = 'first'  # None, 'first', 'all', [command, command]
 
     @classmethod
     def get_help(cls) -> str:
@@ -96,36 +99,36 @@ class BaseView(metaclass=MetaBaseView):
         """
 
         executed = False
-
-        for method in cls._pre_middlwares:
-            func = method.__func__
-            partial_data = cls.get_partial_data(func, **kwargs)
-            await func(cls, tg_obj, **partial_data)
-
-        for method in cls._methods_with_filters:
-            func = method.__func__
-            filters = func.__execute_filters__
-            if not filters:
-                continue
-            if await tg_obj_matches_filters(tg_obj, filters):
+        try:
+            for method in cls._pre_middlwares:
+                func = method.__func__
                 partial_data = cls.get_partial_data(func, **kwargs)
-                if isinstance(method, classmethod):
-                    await func(cls, tg_obj, **partial_data)
-                else:
-                    logging.warning("using staticmethods is deprecated in version 0.2.dev2, "
-                                    "use only classmethods")
-                    await func(tg_obj, **partial_data)
-                executed = True
-                break
+                await func(cls, tg_obj, **partial_data)
 
-        if not executed:
-            partial_data = cls.get_partial_data(cls.execute, state=state, **kwargs)
-            await cls.execute(tg_obj, **partial_data)
+            for method in cls._methods_with_filters:
+                func = method.__func__
+                filters = func.__execute_filters__
+                if not filters:
+                    continue
+                if await tg_obj_matches_filters(tg_obj, filters):
+                    partial_data = cls.get_partial_data(func, **kwargs)
+                    if isinstance(method, classmethod):
+                        await func(cls, tg_obj, **partial_data)
+                    else:
+                        logging.warning("using staticmethods is deprecated in version 0.2.dev2, "
+                                        "use only classmethods")
+                        await func(tg_obj, **partial_data)
+                    executed = True
+                    break
 
-        for method in cls._post_middlwares:
-            func = method.__func__
-            partial_data = cls.get_partial_data(func, **kwargs)
-            await func(cls, tg_obj, **partial_data)
+            if not executed:
+                partial_data = cls.get_partial_data(cls.execute, state=state, **kwargs)
+                await cls.execute(tg_obj, **partial_data)
+        finally:
+            for method in cls._post_middlwares:
+                func = method.__func__
+                partial_data = cls.get_partial_data(func, **kwargs)
+                await func(cls, tg_obj, **partial_data)
 
     @classmethod
     def get_partial_data(cls, func, **data):
