@@ -40,7 +40,12 @@ class MetaBaseView(type):
         cls._pre_middlwares = pre_middlwares
         cls._post_middlwares = post_middlwares
 
-        cls.command_description = cls.short_description  # backward compatibility
+        # backward compatibility
+        if cls.short_description:
+            cls.command_description = cls.short_description
+        elif cls.command_description:
+            cls.short_description = cls.command_description
+        # backward compatibility
 
 
 class BaseView(metaclass=MetaBaseView):
