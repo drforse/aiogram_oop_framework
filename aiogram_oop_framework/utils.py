@@ -140,13 +140,15 @@ class Commands:
         self._dp = dp or Dispatcher.get_current()
         self._commands_dict = {}
 
-    def find_all_commands(self, only_views: bool = True):
+    def find_all_commands(self, only_views: bool = True, filter_: typing.Callable = None):
         commands_handlers = get_command_handlers(self._dp)
         for handler in commands_handlers.views:
             for command in handler.commands:
                 if self._commands_dict.get(command):
                     continue
-                self._commands_dict[command] = handler.short_description or handler.get_help()
+                if filter_ and not filter_(handler):
+                    continue
+                self._commands_dict[command] = handler.short_description or handler.get_help() or ""
         if only_views:
             return self
         for handler in commands_handlers.funcs:
