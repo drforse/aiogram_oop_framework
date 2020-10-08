@@ -69,6 +69,7 @@ class BaseView(metaclass=MetaBaseView):
     index: int = None
     auto_register: bool = True
     help_text: str = ""
+    command_description: str = ""  # backward compatibility
     short_description: str = ""
     set_my_commands = 'first'  # None, 'first', 'all', [command, command]
 
