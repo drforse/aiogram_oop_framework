@@ -108,7 +108,7 @@ class BaseView(metaclass=MetaBaseView):
         try:
             for method in cls._pre_middlwares:
                 func = method.__func__
-                partial_data = cls.get_partial_data(func, **kwargs)
+                partial_data = cls.get_partial_data(func, state=state, **kwargs)
                 await func(cls, tg_obj, **partial_data)
 
             for method in cls._methods_with_filters:
@@ -133,7 +133,7 @@ class BaseView(metaclass=MetaBaseView):
         finally:
             for method in cls._post_middlwares:
                 func = method.__func__
-                partial_data = cls.get_partial_data(func, **kwargs)
+                partial_data = cls.get_partial_data(func, state=state, **kwargs)
                 await func(cls, tg_obj, **partial_data)
 
     @classmethod
