@@ -13,7 +13,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/drforse/aiogram_oop_framework",
-    packages=setuptools.find_packages(exclude=('tests', 'tests*')),
+    packages=setuptools.find_packages(exclude=('tests', 'tests*', 'misc', 'misc*')),
     include_package_data=True,
     install_requires=['aiogram>=2.8', 'click==7.1.2'],
     classifiers=[

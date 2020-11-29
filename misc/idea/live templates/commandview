@@ -1,0 +1,10 @@
+from aiogram import types
+from aiogram.dispatcher import FSMContext
+from aiogram_oop_framework.views import CommandView
+
+
+class $CLASS_NAME$(CommandView):
+
+    @classmethod
+    async def execute(cls, m: types.Message, state: FSMContext = None, **kwargs):
+        $END$
