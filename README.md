@@ -6,9 +6,9 @@ An extender for aiogram to make it more OOP
 docs: https://aiogram-oop-framework.readthedocs.io/en/latest
 
 
-## Live Templates for PyCharm
-You can find live templates in "misc/idea/live templates"
-To just install them all import all.zip through File | Manage IDE Settings | Import
+## [Live Templates](https://www.jetbrains.com/help/pycharm/using-live-templates.html) for PyCharm
+You can find live templates in "misc/idea/live templates"  
+To just install them all import all.zip through File | Manage IDE Settings | Import  
 To install some of them you should follow these instructions:
 1) copy the content of file with template which you want to add
 2) go to File | Settings | Editor | Live Templates
