@@ -117,7 +117,7 @@ class BaseView(metaclass=MetaBaseView):
                 if not filters:
                     continue
                 if await tg_obj_matches_filters(tg_obj, filters):
-                    partial_data = cls.get_partial_data(func, **kwargs)
+                    partial_data = cls.get_partial_data(func, state=state, **kwargs)
                     if isinstance(method, classmethod):
                         await func(cls, tg_obj, **partial_data)
                     else:
