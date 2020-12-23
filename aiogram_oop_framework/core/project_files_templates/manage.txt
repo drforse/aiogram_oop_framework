@@ -6,7 +6,7 @@ import logging
 from aiogram import Dispatcher, Bot
 from aiogram import executor
 from aiogram_oop_framework.views.base import BaseView
-from aiogram_oop_framework.views import UserBaseView
+from aiogram_oop_framework.views import UserBaseView, CommandView
 from aiogram_oop_framework import utils
 from aiogram_oop_framework import exceptions
 from aiogram_oop_framework.filters.builtin import *
@@ -36,6 +36,8 @@ def initialize_project(dispatcher: Dispatcher = None, bot: Bot = None, loop=None
         dp = dispatcher
         bot = bot or dp.bot
     Dispatcher.set_current(dp)
+
+    CommandView.default_command_case = DEFAULT_COMMANDS_CASE
 
     dp.filters_factory.bind(Entities, event_handlers=[dp.message_handlers, dp.poll_handlers])
     dp.filters_factory.bind(ChatTypeFilter, event_handlers=[dp.message_handlers, dp.callback_query_handlers])

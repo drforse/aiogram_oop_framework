@@ -18,3 +18,5 @@ MIDDLEWARES: list of your middlewares (from aiogram), must be classes, not insta
 | MEMORY_STORAGE: DEPRECATED IN 0.2.dev3, will be removed, old name of BOT_STORAGE
 
 PARSE_MODE: default parse mode for your bot
+
+DEFAULT_COMMANDS_CASE: (str or :class:`aiogram_oop_framework.utils.CommandCaseHelper` attribute (which is still str)) specify the default :class:`aiogram_oop_framework.views.CommandView`'s auto-generated command's case, CommandCaseHelper.snake_case by default

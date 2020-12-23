@@ -3,6 +3,7 @@ import typing
 
 from aiogram.dispatcher.middlewares import BaseMiddleware
 from aiogram import types
+from aiogram_oop_framework.utils import CommandCaseHelper
 from aiogram_oop_framework.core.project import Project, ProjectStructure
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
@@ -26,3 +27,5 @@ BOT_STORAGE = MemoryStorage()
 MEMORY_STORAGE = BOT_STORAGE  # needed for backward compatibility, will be removed
 
 PARSE_MODE = types.ParseMode.HTML
+
+DEFAULT_COMMANDS_CASE = CommandCaseHelper.snake_case

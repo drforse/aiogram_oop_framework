@@ -196,3 +196,54 @@ def resolve_set_my_commands(v):
     if isinstance(v.set_my_commands, (list, set, tuple)):
         return v.set_my_commands
     raise TypeError("set_my_commands should be None, 'first', 'all', or list, set, tuple of strings")
+
+
+class CommandCaseHelper:
+    mode = 'original'
+
+    snake_case = 'snake_case'
+    lowercase = 'lowercase'
+
+    @classmethod
+    def all(cls):
+        return [
+            cls.snake_case,
+            cls.lowercase,
+        ]
+
+    @classmethod
+    def _snake_case(cls, text):
+        """
+        Transform text to snake_case
+
+        :param text:
+        :return:
+        """
+        last = ""
+        if text.islower():
+            return text
+        result = ''
+        for pos, symbol in enumerate(text):
+            if (symbol.isupper() or (symbol.isdigit() and not last.isdigit())) and pos > 0:
+                result += '_' + symbol.lower()
+            else:
+                result += symbol.lower()
+            last = symbol
+        return result
+
+    @classmethod
+    def apply(cls, text, mode):
+        """
+        Apply mode for text
+
+        :param text:
+        :param mode:
+        :return:
+        """
+        if mode == cls.snake_case:
+            return cls._snake_case(text)
+        if mode == cls.lowercase:
+            return cls._snake_case(text).replace('_', '')
+        if callable(mode):
+            return mode(text)
+        return text

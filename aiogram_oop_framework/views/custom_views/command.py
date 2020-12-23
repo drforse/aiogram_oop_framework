@@ -1,6 +1,7 @@
 from aiogram import Dispatcher
 from aiogram.types import ContentType
 
+from aiogram_oop_framework.utils import CommandCaseHelper
 from aiogram_oop_framework.views.message import MessageView
 from aiogram_oop_framework.exceptions import *
 
@@ -17,14 +18,17 @@ class CommandView(MessageView):
     and it has some differences, look down:
 
     Attributes:
+        commands (list): commands list (not necessary, default command is auto-generated basing on class's name)
         update_type (str): Update type, must be one of: 'message', 'edited_message', 'channel_post', 'edited_channel_post', defaults to 'message'
-        append_commands (bool): If you set commands manually, does it need to append to the commands the default command or not
+        append_commands (bool): if True -> appends default auto-generated command to commands; ignored (just uses default auto-generated command) if bool(commands) is False
+        default_command_case (str): default auto-generated command's case (snake_case/lowercase)
 
     while registering looks at your view's name and creates a default command with it (Start -> ['start'])
 
     """
     update_type = 'message'
     append_commands = True
+    default_command_case = CommandCaseHelper.snake_case
     content_types = [ContentType.TEXT]
 
     @classmethod
@@ -32,7 +36,7 @@ class CommandView(MessageView):
         """
         """
         callback = cls._execute
-        default_command = cls.__name__.lower()
+        default_command = CommandCaseHelper.apply(cls.__name__, cls.default_command_case)
         commands = cls.commands
         if not cls.commands:
             commands = [default_command]
