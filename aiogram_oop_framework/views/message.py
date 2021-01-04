@@ -25,7 +25,7 @@ class MessageView(BaseView):
 
         register_kwargs (dict): Kwargs, which you would add in @dp.message_handler in fresh aiogram, defaults to None
 
-        index (int): in which order to register the view, defaults to None
+        index (int): in which order to register the view, defaults to None, may be negative to add at the end like in a list. If None that it's put in empty indexes left after others. Example explaining every detail hopefully: [0, None, 2, 3, None, None, -7, -2, -1]
 
         auto_register (bool): set to False if you don't want register the view automatically, ignored, if AUTO_REGISTER_VIEWS in settings.py is set to False, defaults to True
 
