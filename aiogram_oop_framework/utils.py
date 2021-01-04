@@ -62,24 +62,34 @@ def get_non_original_subclasses(base_class: type, library_name: str) -> typing.L
     return result
 
 
-def order_views(views: typing.List['BaseView.__class__']) -> typing.ValuesView['BaseView.__class__']:
+def order_views(views: typing.List['BaseView.__class__']) -> typing.List['BaseView.__class__']:
     unordered = []
     ordered_views = {}
+    negative_ordered_views = []
+    checked_indexes = {}
     for view in views:
-        if view.index is not None:
-            ordered_views[view.index] = view
-        else:
+        if view.index is None:
             unordered.append(view)
-
-    for i in range(len(views)):
-        if not unordered:
-            break
-        if ordered_views.get(i) is not None:
             continue
-        ordered_views[i] = unordered.pop(0)
-    ordered_views = dict(sorted(ordered_views.items(), key=lambda x: x[0]))
+        if view.index < 0:
+            negative_ordered_views.append(view)
+        else:
+            ordered_views[view.index] = view
 
-    return ordered_views.values()
+        if view.index in checked_indexes:
+            raise ValueError(f"Views {checked_indexes[view.index]} and {view} have equal indexes!")
+        checked_indexes[view.index] = view
+
+    result = []
+    for i in range(len(views) - len(negative_ordered_views)):
+        ordered = ordered_views.get(i)
+        if ordered is not None:
+            result.append(ordered)
+            continue
+        result.append(unordered.pop(0))
+
+    result += sorted(negative_ordered_views, key=lambda x: x.index)
+    return result
 
 
 @dataclass
