@@ -1,5 +1,3 @@
-import logging
-
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext, Dispatcher
 

@@ -1,13 +1,15 @@
 from aiogram.types import ChosenInlineResult
 from aiogram.dispatcher import FSMContext, Dispatcher
+from aiogram.types.base import TelegramObject
 
 from .base import BaseView
 
 
 class ChosenInlineResultView(BaseView):
+
     @classmethod
-    async def _execute(cls, r: ChosenInlineResult, state: FSMContext = None, **kwargs):
-        pass
+    async def execute(cls, r: ChosenInlineResult, state: FSMContext = None, **kwargs):
+        raise NotImplementedError
 
     @classmethod
     def register(cls, dp: Dispatcher):

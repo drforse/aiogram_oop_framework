@@ -4,6 +4,7 @@ from .message import MessageView
 
 
 class EditedMessageView(MessageView):
+
     @classmethod
     def register(cls, dp: Dispatcher):
         callback = cls._execute

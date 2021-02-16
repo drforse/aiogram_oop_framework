@@ -8,6 +8,7 @@ from .base import BaseView
 
 
 class PollView(BaseView):
+
     @classmethod
     async def execute(cls, p: Poll, state: FSMContext = None, **kwargs):
         raise NotImplementedError

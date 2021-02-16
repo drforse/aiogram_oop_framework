@@ -26,10 +26,6 @@ class InlineQueryView(BaseView):
         raise NotImplementedError
 
     @classmethod
-    async def _execute(cls, q: InlineQuery, state: FSMContext = None, **kwargs):
-        await cls.execute(q, state, **kwargs)
-
-    @classmethod
     def register(cls, dp: Dispatcher):
         callback = cls._execute
         kwargs = cls.register_kwargs if cls.register_kwargs else {}

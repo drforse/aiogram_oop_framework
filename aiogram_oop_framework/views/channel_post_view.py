@@ -4,6 +4,7 @@ from .message import MessageView
 
 
 class ChannelPostView(MessageView):
+
     @classmethod
     def register(cls, dp: Dispatcher):
         callback = cls._execute

@@ -6,13 +6,10 @@ from .base import BaseView
 
 
 class PollAnswerView(BaseView):
+
     @classmethod
     async def execute(cls, pa: PollAnswer, state: FSMContext = None, **kwargs):
         raise NotImplementedError
-
-    @classmethod
-    async def _execute(cls, pa: PollAnswer, state: FSMContext = None, **kwargs):
-        await cls.execute(pa, state, **kwargs)
 
     @classmethod
     def register(cls, dp: Dispatcher):

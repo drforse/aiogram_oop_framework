@@ -6,13 +6,10 @@ from .base import BaseView
 
 
 class ShippingQueryView(BaseView):
+
     @classmethod
     async def execute(cls, q: ShippingQuery, state: FSMContext = None, **kwargs):
         raise NotImplementedError
-
-    @classmethod
-    async def _execute(cls, q: ShippingQuery, state: FSMContext = None, **kwargs):
-        await cls.execute(q, state, **kwargs)
 
     @classmethod
     def register(cls, dp: Dispatcher):
