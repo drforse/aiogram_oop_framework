@@ -8,7 +8,7 @@ from .base import BaseView
 class MyChatMemberView(BaseView):
 
     @classmethod
-    async def execute(cls, q: ChatMemberUpdated, state: FSMContext = None, **kwargs):
+    async def execute(cls, update: ChatMemberUpdated, state: FSMContext = None, **kwargs):
         raise NotImplementedError
 
     @classmethod
