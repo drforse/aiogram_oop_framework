@@ -10,6 +10,8 @@ from .poll_answer import PollAnswerView
 from .shipping_query import ShippingQueryView
 from .pre_chekout_query import PreCheckoutQueryView
 from .user_base_view import UserBaseView
+from .chat_member import ChatMemberView
+from .my_chat_member import MyChatMemberView
 
 from .content_types_views import *
 from .custom_views import *
