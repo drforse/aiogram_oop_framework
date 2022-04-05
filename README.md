@@ -1,4 +1,6 @@
-[![Dev Build Status](https://travis-ci.com/drforse/aiogram_oop_framework.svg?branch=master)](https://travis-ci.com/drforse/aiogram_oop_framework)  
+[![Dev Build Status](https://travis-ci.com/drforse/aiogram_oop_framework.svg?branch=master)](https://travis-ci.com/drforse/aiogram_oop_framework) 
+
+# !!! Framework is not maintained anymore !!!
 
 # aiogram_oop_framework
 An extender for aiogram to make it more OOP
